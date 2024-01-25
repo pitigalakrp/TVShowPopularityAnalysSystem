@@ -5,6 +5,7 @@ import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
 import TopRate from './pages/toprated/toprate';
+import SuggestForm from './pages/suggest/suggestform';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="movie/:title" element={<Movie />}></Route>
                 <Route path="movies" element={<MovieList />}></Route>
                 <Route path='/movies/top_rated' element={<TopRate />}></Route>
+                <Route path='/movies/suggestionform' element={<SuggestForm />}></Route>
                 <Route path="/*" element={<h1>Error Page</h1>}></Route>
             </Routes>
         </Router>

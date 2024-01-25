@@ -1,3 +1,5 @@
+import pickle
+
 from flask import Flask, jsonify
 import firebase_admin
 from firebase_admin import firestore
@@ -67,11 +69,28 @@ def getTopRatedMovies():
         })
 
     # Return the top-rated movies as JSON
-    return jsonify({'top_rated_movies': top_rated_movies})
+    return jsonify({'top_rated_movies': top_rated_movies}), 200
 
 
-# def getMoviesByGenre(genre):
-#     pass
+@app.route('/api/suggest/<age>/<gender>/<location>', methods=['GET'])
+def getMoviesByState(age, gender, location):
+    with open('./static/decision_tree.pkl', 'rb') as file:
+        decision_tree = pickle.load(file)
+    feature_names = ['age', 'gender', 'location']
+    predict_data = [[age, gender, location]]
+    prediction = decision_tree.predict(predict_data)
+    print(prediction)
+
+    # Replace the following line with your actual Firestore collection and field names
+    doc_show_ref = db.collection('tvshow')
+    query = doc_show_ref.where('genre', '==', prediction[0]).stream()
+
+    # Create a list to store the results
+    movies = []
+    for doc in query:
+        movies.append(doc.to_dict())
+
+    return jsonify({'movies': movies}), 200
 #
 # def getMoviesByRating(movieRating):
 #     pass

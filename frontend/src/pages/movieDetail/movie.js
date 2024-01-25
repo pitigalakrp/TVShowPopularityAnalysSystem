@@ -41,13 +41,8 @@ const Movie = () => {
                         <div className="movie__releaseDate">{currentMovieDetail ? "Show Day: " + currentMovieDetail.week : ""}</div>
                         <div className="movie__genres">
                             {
-                                currentMovieDetail && currentMovieDetail.genres
-                                ? 
-                                currentMovieDetail.genres.map(genre => (
-                                    <><span className="movie__genre" id={genre.id}>{genre.name}</span></>
-                                )) 
-                                : 
-                                ""
+                                
+                                    <><span className="movie__genre">{currentMovieDetail?currentMovieDetail.genre:''}</span></>
                             }
                         </div>
                     </div>
